@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Nov 27 21:08:25 2021
+# Make data base, printed on Sat Nov 27 23:30:55 2021
 
 # Variables
 
@@ -63,7 +63,7 @@ VSCODE_LOG_STACK = false
 # environment
 PYENV_ROOT = /home/macrodrigues/.pyenv
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-8f809a5e-b5e6-4c06-a071-83e559ab8437.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-5fe4f103-f8f7-4675-a856-a1ea60645f7b.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -276,7 +276,6 @@ count_lines:
 	@echo ''
 	@find ./scripts -name '*-*' -exec  wc -l {} \; | sort -n| awk \
 		        '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
- 
 	@echo ''
 	@find ./tests -name '*.py' -exec  wc -l {} \; | sort -n| awk \
         '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
@@ -303,6 +302,7 @@ clean:
 # automatic
 # + := 
 # automatic
+ 
 # | := 
 # automatic
 # < := 
@@ -349,12 +349,12 @@ install:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 32 / storage = 293 B / avg = 9 B
-# current buf: size = 8162 B / used = 293 B / count = 32 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 32 / storage = 289 B / avg = 9 B
+# current buf: size = 8162 B / used = 289 B / count = 32 / avg = 9 B
 
 # strcache performance: lookups = 55 / hit rate = 41%
 # hash-table stats:
 # Load=32/8192=0%, Rehash=0, Collisions=1/55=2%
-# Finished Make data base on Sat Nov 27 21:08:25 2021
+# Finished Make data base on Sat Nov 27 23:30:55 2021
 
  
