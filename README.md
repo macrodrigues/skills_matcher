@@ -1,11 +1,8 @@
-# Data analysis
-- Document here the project: skills_matcher
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# Skills Matcher
 
-Please document the project the better you can.
+![image](https://user-images.githubusercontent.com/62621924/143722908-7e35e501-a4a1-4adf-ace8-fd2e9b90da14.png)
 
+<!--
 # Startup the project
 
 The initial setup.
@@ -72,3 +69,30 @@ mkdir tmp
 cd tmp
 skills_matcher-run
 ```
+-->
+
+# Motivation
+
+Recruiters have several difficulties when trying to find the right candidates for their job positions. They can spend a lot of time trying to get the perfect match for the task, and in the path they might end up picking an "okay" candidate instead. In addition, they receive tones of applications, that are difficult to parse.
+
+In the other hand, the job seekers tend to apply for several job positions. Partially because some of these job descriptions are not properly built to catch the right candidate, and also because there is few guidance in order to help them all through this process.
+
+There are several platforms that have been improving their technology in order to provide good matches between job positions and job seekers. And most of this effort is being done using **Natural Language Processing (NLP)**.
+
+# The Dataset
+
+**[Scraping](https://peakd.com/hive-163521/@macrodrigues/scraping-job-descriptions-for-nlp-project)** and data cleaning was done beforehand. See below a sample of the dataset:  
+
+![image.png](https://files.peakd.com/file/peakd-hive/macrodrigues/23swkNnbaXYwZTPzdBvEsCDXtQZVM9dSUDYxjSJ84tcSmxEcRPGUQdwd1AyzDPSoSzFyQ.png)
+
+See below an example of job description:
+
+```
+"[' Minimum of three years experience in Python Software Development + experience with Python web frameworks Experience with API integration will be highly advantageous Experience with Tenable, Kryptowire, Netsparker is advantageous Banking/financial services background is preferred (not essential) Good understanding of Agile and DevOps cultures ', ' Create and maintain the Rest APIs Migrate the application to the cloud Dockerize and orchestrate the applications Maintain the codebase for the application. Setup end to end data processing pipelines. ']"
+```
+
+# The Models
+
+
+
+  
