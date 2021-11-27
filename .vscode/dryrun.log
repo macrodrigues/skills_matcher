@@ -1,0 +1,4 @@
+make: Entering directory '/home/macrodrigues/code/macrodrigues/skills_matcher'
+pip install -r requirements.txt
+make: Leaving directory '/home/macrodrigues/code/macrodrigues/skills_matcher'
+ 
