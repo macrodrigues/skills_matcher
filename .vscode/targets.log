@@ -5,8 +5,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Wed Dec  1 11:17:10 2021
+# Make data base, printed on Wed Dec  1 14:03:40 2021
 
 # Variables
 
@@ -63,7 +64,7 @@ VSCODE_LOG_STACK = false
 # environment
 PYENV_ROOT = /home/macrodrigues/.pyenv
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-f449facd-c198-441b-b757-b2e449c5502d.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-fd501802-10ff-476f-9e95-3c7a574b11a9.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -81,9 +82,9 @@ PWD = /home/macrodrigues/code/macrodrigues/skills_matcher
 # environment
 SSH_AGENT_PID = 115
 # environment
-WSL_INTEROP = /run/WSL/1776_interop
+WSL_INTEROP = /run/WSL/4518_interop
 # environment
-WT_SESSION = 0ef47140-bc92-4be9-9493-b334a6d1f5dc
+WT_SESSION = 6dc143c1-6ffe-46d0-9279-84539960bb58
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
 # environment
@@ -275,7 +276,6 @@ count_lines:
         '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 	@find ./scripts -name '*-*' -exec  wc -l {} \; | sort -n| awk \
- 
 		        '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 	@find ./tests -name '*.py' -exec  wc -l {} \; | sort -n| awk \
@@ -290,6 +290,7 @@ count_lines:
 
 clean:
 #  Implicit rule search has not been done.
+ 
 #  Implicit/static pattern stem: ''
 #  File does not exist.
 #  File has been updated.
@@ -355,6 +356,6 @@ install:
 # strcache performance: lookups = 56 / hit rate = 41%
 # hash-table stats:
 # Load=33/8192=0%, Rehash=0, Collisions=1/56=2%
-# Finished Make data base on Wed Dec  1 11:17:11 2021
+# Finished Make data base on Wed Dec  1 14:03:40 2021
 
  
