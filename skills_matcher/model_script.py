@@ -13,7 +13,6 @@ import os
 
 PATH = os.path.dirname(os.getcwd())
 
-
 def get_train_data(data):
     """Convert the data into a training format for spacy"""
     l1 = []
