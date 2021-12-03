@@ -54,4 +54,5 @@ pypi_test:
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
 
-
+install_dev:
+	@pip install -e .
