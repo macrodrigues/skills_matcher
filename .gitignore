@@ -1,6 +1,7 @@
 *.egg-info
 .coverage
-.ipynb_checkpoints
 .DS_Store
+.ipynb_checkpoints
 **/__pycache__/
 .env
+.text_notebooks
