@@ -1,10 +1,7 @@
 import json
-import pandas as pd
-import numpy as np
 import spacy
 from spacy import displacy
 from spacy.tokens import DocBin
-from spacy.training import Example
 from tqdm import tqdm
 import os
 import re
@@ -56,7 +53,7 @@ def json_to_train_data(json_path):
     # removes leading and trailing white spaces from entity spans
     invalid_span_tokens = re.compile(r'\s')
     training_data = []
-    for text, annotations in data:
+    for text, annotations in train_format:
         entities = annotations['entities']
         valid_entities = []
         for start, end, label in entities:
@@ -85,7 +82,6 @@ def make_spacy_model(data):
     """Create model spacy model"""
     nlp = spacy.blank("en") # load a new spacy model
     db = DocBin() # create a DocBin object
-    all_ents = []
     for text, annot in tqdm(data): # data in previous format
         doc = nlp.make_doc(text) # create doc object from text
         ents = []
