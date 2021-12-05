@@ -39,6 +39,22 @@ Steps to implement the model:
 
 """
 
+colors = {
+    "MIN_EXP": "#ffd966",
+    "SKILL": "#e06666",
+    "KNOWLEDGE": "#9fc5e8",
+    "LEVEL": "#c27ba0"
+}
+options = {
+    "ents": [
+        "MIN_EXP",
+        "SKILL",
+        "KNOWLEDGE",
+        "LEVEL"
+    ],
+    "colors": colors,
+}
+
 def split_data(jsonl_path, val_split = 0.3):
     """This function takes a JSON file and converts it
     to the format read by Spacy"""
@@ -46,7 +62,7 @@ def split_data(jsonl_path, val_split = 0.3):
     with open(jsonl_path) as f:
         for line in f:
             raw_data.append(json.loads(line))
-    
+
     raw_data = random.sample(raw_data, len(raw_data))
 
     #convert json to dictionary format
@@ -107,7 +123,7 @@ def make_spacy_model(data):
 def load_results(model_path, X_text):
     nlp = spacy.load(model_path)
     doc = nlp(X_text)
-    spacy.displacy.render(doc, style='ent', jupyter = True)
+    spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
     ents = doc.ents
     output = []
     for entity in ents:
