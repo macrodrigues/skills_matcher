@@ -1,0 +1,311 @@
+,ISCO,careers,careers_scrap_format
+0,21,astronomer,astronomer
+1,21,physicist,physicist
+2,21,plasma physicist,plasma%20physicist
+3,21,meteorologist,meteorologist
+4,21,biochemist,biochemist
+5,21,chemist,chemist
+6,21,environmental chemist,environmental%20chemist
+7,21,organic chemist,organic%20chemist
+8,21,process chemist,process%20chemist
+9,21,geochemist,geochemist
+10,21,geologist,geologist
+11,21,geophysicist,geophysicist
+12,21,hydrogeologist,hydrogeologist
+13,21,hydrologist,hydrologist
+14,21,mining geologist,mining%20geologist
+15,21,biostatistician,biostatistician
+16,21,mathematician,mathematician
+17,21,statistician,statistician
+18,21,biologist,biologist
+19,21,botanist,botanist
+20,21,cytologist,cytologist
+21,21,ecotoxicologist,ecotoxicologist
+22,21,entomologist,entomologist
+23,21,geneticist,geneticist
+24,21,genetics researcher,genetics%20researcher
+25,21,immunologist,immunologist
+26,21,microbiologist,microbiologist
+27,21,molecular biologist,molecular%20biologist
+28,21,pharmacologist,pharmacologist
+29,21,physiologist,physiologist
+30,21,toxicologist,toxicologist
+31,21,agricultural scientist,agricultural%20scientist
+32,21,ecologist,ecologist
+33,21,textile engineer,textile%20engineer
+34,21,verification engineer,verification%20engineer
+35,21,construction planner,construction%20planner
+36,21,development engineer,development%20engineer
+37,21,inspection engineer,inspection%20engineer
+38,21,plant engineer,plant%20engineer
+39,21,process engineer,process%20engineer
+40,21,product developer,product%20developer
+41,21,project engineer,project%20engineer
+42,21,environmental engineer,environmental%20engineer
+43,21,automotive designer,automotive%20designer
+44,21,instrument engineer,instrument%20engineer
+45,21,maintenance engineer,maintenance%20engineer
+46,21,mechanical designer,mechanical%20designer
+47,21,mechanical engineer,mechanical%20engineer
+48,21,mechatronics engineer,mechatronics%20engineer
+49,21,testing engineer,testing%20engineer
+50,21,metallurgist,metallurgist
+51,21,mining engineer,mining%20engineer
+52,33,loans controller,loans%20controller
+53,33,market assistant,market%20assistant
+54,33,order manager,order%20manager
+55,33,pricing officer,pricing%20officer
+56,33,accounting assistant,accounting%20assistant
+57,33,audit assistant,audit%20assistant
+58,33,bookkeeper,bookkeeper
+59,33,inspection engineer,inspection%20engineer
+60,33,inspector,inspector
+61,33,insurance adviser,insurance%20adviser
+62,33,field sales representative,field%20sales%20representative
+63,33,sales adviser,sales%20adviser
+64,33,buyer,buyer
+65,33,purchasing engineer,purchasing%20engineer
+66,33,conference manager,conference%20manager
+67,33,estate manager,estate%20manager
+68,33,housing administrator,housing%20administrator
+69,33,housing manager,housing%20manager
+70,33,leasing manager,leasing%20manager
+71,33,letting agent,letting%20agent
+72,33,auctioneer,auctioneer
+73,33,booking agent,booking%20agent
+74,33,distribution supervisor,distribution%20supervisor
+75,33,manager,manager
+76,33,patent consultant,patent%20consultant
+77,33,quality auditor,quality%20auditor
+78,33,shipping agent,shipping%20agent
+79,33,administrative assistant,administrative%20assistant
+80,33,study administrator,study%20administrator
+81,33,clinical assistant,clinical%20assistant
+82,23,electronics teacher,electronics%20teacher
+83,23,photography teacher,photography%20teacher
+84,23,textiles teacher,textiles%20teacher
+85,23,woodwork teacher,woodwork%20teacher
+86,23,geography teacher,geography%20teacher
+87,23,middle school teacher,middle%20school%20teacher
+88,23,montessori teacher,montessori%20teacher
+89,23,primary school teacher,primary%20school%20teacher
+90,23,subject teacher,subject%20teacher
+91,23,playground supervisor,playground%20supervisor
+92,23,preschool teacher,preschool%20teacher
+93,23,supply teacher,supply%20teacher
+94,23,special needs teacher,special%20needs%20teacher
+95,23,speech therapist,speech%20therapist
+96,23,teacher of the deaf,teacher%20of%20the%20deaf
+97,23,language teacher,language%20teacher
+98,23,music instructor,music%20instructor
+99,23,music teacher,music%20teacher
+100,23,singing teacher,singing%20teacher
+101,23,art teacher,art%20teacher
+102,23,drama teacher,drama%20teacher
+103,23,computing teacher,computing%20teacher
+104,23,it teacher,it%20teacher
+105,32,dental technician,dental%20technician
+106,32,medical engineer,medical%20engineer
+107,32,biomedical analyst,biomedical%20analyst
+108,32,pharmacist,pharmacist
+109,32,pharmacy technician,pharmacy%20technician
+110,32,area director,area%20director
+111,32,orthoptist,orthoptist
+112,32,nurse,nurse
+113,31,civil engineer,civil%20engineer
+114,31,traffic engineer,traffic%20engineer
+115,31,electrical designer,electrical%20designer
+116,31,electrical engineer,electrical%20engineer
+117,31,supervisor,supervisor
+118,31,factory engineer,factory%20engineer
+119,31,operations engineer,operations%20engineer
+120,31,power plant engineer,power%20plant%20engineer
+121,22,family doctor,family%20doctor
+122,22,medical officer,medical%20officer
+123,22,immunologist,immunologist
+124,22,anaesthetist,anaesthetist
+125,22,cancer specialist,cancer%20specialist
+126,22,cardiologist,cardiologist
+127,22,clinical neurophysiologist,clinical%20neurophysiologist
+128,22,clinical pathologist,clinical%20pathologist
+129,22,clinical pharmacologist,clinical%20pharmacologist
+130,22,clinical physiologist,clinical%20physiologist
+131,22,dermatologist,dermatologist
+132,22,endocrinologist,endocrinologist
+133,22,epidemiologist,epidemiologist
+134,22,forensic psychiatrist,forensic%20psychiatrist
+135,22,gastroenterologist,gastroenterologist
+136,22,geriatrician,geriatrician
+137,22,gynaecologist,gynaecologist
+138,22,haematologist,haematologist
+139,22,nephrologist,nephrologist
+140,22,neurologist,neurologist
+141,22,neurophysiologist,neurophysiologist
+142,22,neurosurgeon,neurosurgeon
+143,22,oncologist,oncologist
+144,22,ophthalmologist,ophthalmologist
+145,22,paediatrician,paediatrician
+146,22,paediatric surgeon,paediatric%20surgeon
+147,22,pathologist,pathologist
+148,22,plastic surgeon,plastic%20surgeon
+149,22,psychiatrist,psychiatrist
+150,22,radiologist,radiologist
+151,22,rehabilitation specialist,rehabilitation%20specialist
+152,22,rheumatologist,rheumatologist
+153,22,surgeon,surgeon
+154,22,thoracic surgeon,thoracic%20surgeon
+155,22,urologist,urologist
+156,22,chief nurse,chief%20nurse
+157,22,dental nurse,dental%20nurse
+158,22,group leader,group%20leader
+159,22,head nurse,head%20nurse
+160,22,acupuncturist,acupuncturist
+161,22,veterinarian,veterinarian
+162,22,veterinary surgeon,veterinary%20surgeon
+163,22,dental officer,dental%20officer
+164,22,dental specialist,dental%20specialist
+165,22,dentist,dentist
+166,22,orthodontist,orthodontist
+167,22,pharmacist,pharmacist
+168,22,environmental supervisor,environmental%20supervisor
+169,22,ergonomist,ergonomist
+170,22,physiotherapist,physiotherapist
+171,22,dietitian,dietitian
+172,22,nutritionist,nutritionist
+173,22,nutrition scientist,nutrition%20scientist
+174,22,adviser,adviser
+175,22,audiologist,audiologist
+176,22,audiology assistant,audiology%20assistant
+177,22,audiometrist,audiometrist
+178,22,speech therapist,speech%20therapist
+179,22,therapist,therapist
+180,61,florist,florist
+181,61,gardener,gardener
+182,61,supervisor,supervisor
+183,61,tree surgeon,tree%20surgeon
+184,61,maintenance operative,maintenance%20operative
+185,61,relief worker,relief%20worker
+186,61,beekeeper,beekeeper
+187,83,shunter,shunter
+188,83,shunter driver,shunter%20driver
+189,83,car driver,car%20driver
+190,83,limousine driver,limousine%20driver
+191,83,taxi driver,taxi%20driver
+192,83,bus driver,bus%20driver
+193,83,distributor,distributor
+194,83,dumper driver,dumper%20driver
+195,83,tractor driver,tractor%20driver
+196,83,excavator operator,excavator%20operator
+197,83,machine driver,machine%20driver
+198,24,accountant,accountant
+199,24,auditor,auditor
+200,24,financial consultant,financial%20consultant
+201,24,financial analyst,financial%20analyst
+202,24,personnel officer,personnel%20officer
+203,24,recruitment officer,recruitment%20officer
+204,24,recruitment researcher,recruitment%20researcher
+205,24,copywriter,copywriter
+206,24,marketer,marketer
+207,24,market planner,market%20planner
+208,24,media consultant,media%20consultant
+209,24,media planner,media%20planner
+210,52,kiosk assistant,kiosk%20assistant
+211,52,shop supervisor,shop%20supervisor
+212,52,grocery assistant,grocery%20assistant
+213,52,salesperson,salesperson
+214,52,shop assistant,shop%20assistant
+215,52,cashier,cashier
+216,52,model,model
+217,52,telemarketer,telemarketer
+218,35,operations technician,operations%20technician
+219,35,pc engineer,pc%20engineer
+220,35,system technician,system%20technician
+221,35,audiovisual engineer,audiovisual%20engineer
+222,35,cameraman,cameraman
+223,35,lighting designer,lighting%20designer
+224,35,lighting engineer,lighting%20engineer
+225,35,lighting technician,lighting%20technician
+226,35,sound engineer,sound%20engineer
+227,35,sound technician,sound%20technician
+228,35,studio technician,studio%20technician
+229,35,tom,tom
+230,35,video editor,video%20editor
+231,35,video technician,video%20technician
+232,35,verification engineer,verification%20engineer
+233,35,radio operator,radio%20operator
+234,42,cash manager,cash%20manager
+235,42,dealer,dealer
+236,42,lender,lender
+237,42,sales director,sales%20director
+238,42,tour operator,tour%20operator
+239,42,travel agent,travel%20agent
+240,42,switchboard operator,switchboard%20operator
+241,42,bookings clerk,bookings%20clerk
+242,42,bookings manager,bookings%20manager
+243,42,hotel receptionist,hotel%20receptionist
+244,42,night receptionist,night%20receptionist
+245,42,receptionist,receptionist
+246,42,customer adviser,customer%20adviser
+247,25,it system engineer,it%20system%20engineer
+248,25,system engineer,system%20engineer
+249,25,software designer,software%20designer
+250,25,software programmer,software%20programmer
+251,25,web developer,web%20developer
+252,25,application developer,application%20developer
+253,25,application engineer,application%20engineer
+254,25,system designer,system%20designer
+255,25,system developer,system%20developer
+256,25,system programmer,system%20programmer
+257,25,security analyst,security%20analyst
+258,25,data analyst,data%20analyst
+259,25,database designer,database%20designer
+260,25,database developer,database%20developer
+261,25,database engineer,database%20engineer
+262,25,data processing analyst,data%20processing%20analyst
+263,25,data scientist,data%20scientist
+264,25,data engineer,data%20engineer
+265,25,machine learning engineer,machine%20learning%20engineer
+266,25,ui designer,ui%20designer
+267,25,ux designer,ux%20designer
+268,25,cybersecurity,cybersecurity
+269,25,blockchain developer,blockchain%20developer
+270,54,firefighter,firefighter
+271,54,police officer,police%20officer
+272,54,prison officer,prison%20officer
+273,54,bodyguard,bodyguard
+274,54,doorman,doorman
+275,54,security guard,security%20guard
+276,54,lifeguard,lifeguard
+277,12,chief accountant,chief%20accountant
+278,12,chief financial officer,chief%20financial%20officer
+279,12,financial director,financial%20director
+280,12,research manager,research%20manager
+281,12,staff manager,staff%20manager
+282,12,staff officer,staff%20officer
+283,12,cleaning manager,cleaning%20manager
+284,12,environmental manager,environmental%20manager
+285,12,administrative manager,administrative%20manager
+286,12,planning director,planning%20director
+287,12,station manager,station%20manager
+288,12,export sales manager,export%20sales%20manager
+289,12,marketing director,marketing%20director
+290,12,marketing manager,marketing%20manager
+291,12,product manager,product%20manager
+292,12,sales director,sales%20director
+293,12,sales manager,sales%20manager
+294,12,sales supervisor,sales%20supervisor
+295,12,advertising manager,advertising%20manager
+296,12,director of public relations,director%20of%20public%20relations
+297,12,information manager,information%20manager
+298,12,media director,media%20director
+299,12,publicity manager,publicity%20manager
+300,12,laboratory manager,laboratory%20manager
+301,53,childcarer,childcarer
+302,53,childminder,childminder
+303,91,housekeeper,housekeeper
+304,91,nanny,nanny
+305,91,attendant,attendant
+306,91,bar assistant,bar%20assistant
+307,91,cleaner,cleaner
+308,91,washer,washer
+309,91,window cleaner,window%20cleaner
