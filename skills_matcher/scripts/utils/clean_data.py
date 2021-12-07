@@ -3,7 +3,6 @@ import numpy as np
 import string
 import nltk
 from nltk.corpus import stopwords
-from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
@@ -26,5 +25,5 @@ def clean_dictionary(data, sample = 2000):
     return data
 
 
-#def clean_skills():
-    
+def clean_skills():
+    pass
