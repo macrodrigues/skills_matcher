@@ -1,10 +1,13 @@
 import json
 import spacy
+import spacy_streamlit
 from spacy.tokens import DocBin
 from tqdm import tqdm
 import re
-import numpy as np
 import random
+import os
+
+PATH = os.path.dirname(os.path.dirname(__file__))
 
 random.seed(42)
 
@@ -65,15 +68,24 @@ def split_data(jsonl_path, val_split = 0.3):
 
     raw_data = random.sample(raw_data, len(raw_data))
 
+
     #convert json to dictionary format
     train_format = []
     for i in range(len(raw_data)):
         jd = raw_data[i]['data']
         label = raw_data[i]['label']
-        label = [tuple(j) for j in label]
-        label = {'entities': label}
-        row = (jd, label)
-        train_format.append(row)
+        if label:
+            for j in label:
+                if 'SKILL' in j[2]:
+                    j[2] = 'SKILL'
+            label = [tuple(j) for j in label]
+            label = {'entities': label}
+            row = (jd, label)
+            train_format.append(row)
+
+    train_format = [
+        i for n, i in enumerate(train_format) if i not in train_format[n + 1:]
+    ]
 
     # removes leading and trailing white spaces from entity spans
     invalid_span_tokens = re.compile(r'\s')
@@ -120,15 +132,28 @@ def make_spacy_model(data):
         db.add(doc)
     return db
 
-def load_results(model_path, X_text):
+PATH_MANUAL_MODEL = PATH + '/models/output_manual_model/model-best'
+PATH_AUTO_MODEL = PATH + '/models/output_auto_model/model-best'
+
+def load_results_manual(X_text, model_path = PATH_MANUAL_MODEL, visualize = False):
+    """This function ouputs different labels, so the output os a dictionary"""
     nlp = spacy.load(model_path)
     doc = nlp(X_text)
-    spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
+    if visualize == True:
+        spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
     ents = doc.ents
     output = []
     for entity in ents:
         row = {'entity': entity,
-                'label': entity.label_,
-                'mean_vector': entity.vector.mean()}
+                'label': entity.label_}
         output.append(row)
     return output
+
+
+def load_results_auto(X_text, model_path=PATH_AUTO_MODEL, visualize=False):
+    """This function only ouputs skills, so no need to create dictionary"""
+    nlp = spacy.load(model_path)
+    doc = nlp(X_text)
+    if visualize == True:
+        spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
+    return doc.ents
