@@ -56,3 +56,10 @@ pypi:
 
 install_dev:
 	@pip install -e .
+
+# ----------------------------------
+#      Streamlit
+# ----------------------------------
+
+streamlit:
+	@streamlit run skills_matcher/app/app.py
