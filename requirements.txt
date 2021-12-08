@@ -27,3 +27,10 @@ six>=1.14
 joblib
 memoized-property
 termcolor
+geopy
+pdfplumber
+
+
+#streamlit
+streamlit
+spacy_streamlit

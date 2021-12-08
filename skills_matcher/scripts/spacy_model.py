@@ -135,25 +135,37 @@ def make_spacy_model(data):
 PATH_MANUAL_MODEL = PATH + '/models/output_manual_model/model-best'
 PATH_AUTO_MODEL = PATH + '/models/output_auto_model/model-best'
 
-def load_results_manual(X_text, model_path = PATH_MANUAL_MODEL, visualize = False):
+def load_results_manual(X_text, model_path = PATH_MANUAL_MODEL, visualize = False, streamlit = False):
     """This function ouputs different labels, so the output os a dictionary"""
     nlp = spacy.load(model_path)
     doc = nlp(X_text)
+    if streamlit == True:
+        spacy_streamlit.visualize_ner(
+            doc,
+            labels=["SKILL", "MIN_EXP", "KNOWLEGE", "LEVEL"],
+            show_table=False,
+            title="random")
     if visualize == True:
         spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
     ents = doc.ents
     output = []
     for entity in ents:
-        row = {'entity': entity,
+        row = {'entity': entity.text,
                 'label': entity.label_}
         output.append(row)
     return output
 
-
-def load_results_auto(X_text, model_path=PATH_AUTO_MODEL, visualize=False):
+def load_results_auto(X_text, model_path=PATH_AUTO_MODEL, visualize=False, streamlit = False):
     """This function only ouputs skills, so no need to create dictionary"""
     nlp = spacy.load(model_path)
     doc = nlp(X_text)
+    if streamlit == True:
+        spacy_streamlit.visualize_ner(
+            doc,
+            labels=["SKILL", "MIN_EXP", "KNOWLEGE", "LEVEL"],
+            show_table=False,
+            title="random"
+        )
     if visualize == True:
         spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
-    return doc.ents
+    return [i.text for i in doc.ents]
