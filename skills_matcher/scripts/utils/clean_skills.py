@@ -1,6 +1,6 @@
 import re
 import pandas as pd
-
+#from scripts.utils import clean_skills
 # Instructions:
 
 # 1) import extract_skills_auto, extract_entities_2, extract_lables, get_dict
@@ -25,6 +25,24 @@ def extract_lables(s):
     res = re.finditer(pattern, s)
     return [mo.group().partition("': '")[2].strip("'") for mo in res]
 
+
+def get_dict_cv(x):
+    dict_ = {}
+    entities = extract_entities_2(x['entities_manual_label'])
+    labels = extract_lables(x['entities_manual_label'])
+    for index, key in enumerate(entities):
+        if key not in dict_.keys():
+            dict_[key] = labels[index]
+    entities_manual_label = extract_skills_auto(x['entity_ruler'])
+    for index, value in enumerate(entities_manual_label):
+        if value not in dict_.keys():
+            dict_[value] = 'SKILL'
+    skills_list = []
+    for entity, label in dict_.items():
+        if label == 'SKILL':
+            skills_list.append(entity)
+    x["SKILL"] = skills_list
+    return x
 
 def get_dict(x):
 
