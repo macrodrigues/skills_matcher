@@ -35,7 +35,6 @@ PATH_DATA, PATH_DICT, PATH_TRAIN_DATA, PATH_VAL_DATA, PATH_COMPLETE_DICT, PATH_C
 
 def extract_CV(inp = None):
     df_CV = pd.read_csv(PATH_COMPLETE_CV, index_col=[0])
-    
     data = df_CV.apply(get_dict_cv, axis=1)
     data.drop(columns = ["Resume_html", "entities_auto_label", 'entities_manual_label'], inplace = True)
     return data
@@ -60,7 +59,7 @@ def extract_resume_skills(text):
     return flat_list
 
 def extract_jd(inp = None):
-    df_JD = pd.read_csv(PATH_DATA)
+    df_JD = pd.read_csv(PATH_DATA, index_col=[0])
     
     #else branch with input seems like its not working properly with match_skills function (yet)
     if inp == None:
@@ -76,9 +75,23 @@ def extract_jd(inp = None):
     
     return data
 
-def match_skills(JD_set, cv_set, data):
+def extract_jd_position(inp = None):
+    df_JD = pd.read_csv(PATH_DATA, index_col=[0])
+    
+    if inp == None:
+        data = df_JD.apply(get_dict, axis=1)
+        data.drop(columns = ["ISCO", "major_job"], inplace = True)
+    else:    
+        df_JD = df_JD.loc[df_JD['position'] == inp, ['job', 'position', 'location', 'description',	
+                              'entities_auto_label', 'entities_manual_label']]
+        data = df_JD.apply(get_dict, axis=1)
+        data.reset_index(inplace = True)
+    
+    return data
+
+def match_skills(cv_set, data):
     '''Get intersection of resume skills and job offer skills and return match percentage'''
-    pct_list = []
+    percent_list = []
     
     JD_set = data["SKILL"].apply(set)
     
@@ -91,16 +104,19 @@ def match_skills(JD_set, cv_set, data):
             if len(JD_set[i]) < 2:
                 continue
             else:
-                qu = len(set(cv_set) & JD_set[i])
-                di = len(JD_set[i])
-                pct_match = round((qu/di) * 100, 2)
-                pct_list.append([i, pct_match])
+                quotient = len(set(cv_set) & JD_set[i])
+                divisor = len(JD_set[i])
+                percent_match = round((quotient/divisor) * 100, 2)
+                percent_list.append([i, percent_match])
             
-        pct_list.sort(key=lambda x: x[1], reverse = True)
-        pct_list = pct_list[0:9]
-        
+        percent_list.sort(key=lambda x: x[1], reverse = True)
+        percent_list = percent_list[0:9]
+    return percent_list
+
+def visualizer(list, data):   
     '''Counting matching score'''
     job_number, matching_score, job_cat = [], [], []
+    pct_list = list
     frame = pd.DataFrame
 
     for i in pct_list:
