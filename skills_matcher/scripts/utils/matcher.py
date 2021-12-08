@@ -47,9 +47,26 @@ def clean_resume(df):
         clean.append(review)
     return clean
 
-def extract_resume_skills(text):
+def extract_jd(inp = None):
+    df_JD = pd.read_csv(PATH_DATA)
     
-    #model set to False if nlp models (base, trained) were already applied. Set to true if not
+    #else branch with input seems like its not working properly with match_skills function (yet)
+    if inp == None:
+        data = df_JD.apply(get_dict, axis=1)
+        data.drop(columns = ["ISCO", "major_job"], inplace = True)
+    else:    
+        df_JD = df_JD.loc[df_JD['job'] == inp, ['job', 'position', 'location', 'description',	
+                              'entities_auto_label', 'entities_manual_label']]
+        data = df_JD.apply(get_dict, axis=1)
+        data.reset_index(inplace = True)
+        
+    data.drop(columns = ['entities_auto_label', 'entities_manual_label'], inplace = True)
+    
+    return data
+
+def extract_resume_skills(text):
+    #extracting skills from resume string
+    
     set_list_2 = []
     ext = []
     
@@ -65,7 +82,6 @@ def extract_resume_skills(text):
     set(flat_list)
         
     return flat_list
-
 
 def create_skill_list(text, model = False):
     
