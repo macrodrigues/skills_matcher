@@ -28,7 +28,7 @@ joblib
 memoized-property
 termcolor
 geopy
-PyPDF2
+pdfplumber
 
 
 #streamlit

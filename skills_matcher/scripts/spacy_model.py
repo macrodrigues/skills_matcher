@@ -150,7 +150,7 @@ def load_results_manual(X_text, model_path = PATH_MANUAL_MODEL, visualize = Fals
     ents = doc.ents
     output = []
     for entity in ents:
-        row = {'entity': entity,
+        row = {'entity': entity.text,
                 'label': entity.label_}
         output.append(row)
     return output
@@ -168,4 +168,4 @@ def load_results_auto(X_text, model_path=PATH_AUTO_MODEL, visualize=False, strea
         )
     if visualize == True:
         spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
-    return doc.ents
+    return [i.text for i in doc.ents]
