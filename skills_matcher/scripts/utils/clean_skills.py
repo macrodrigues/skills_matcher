@@ -7,7 +7,6 @@ import pandas as pd
 # 2) load data_final_raw.csv as data
 # 2) data_cleaned = data.apply(get_dict, axis=1)
 
-
 def extract_skills_auto(s):
     words_pattern = '[a-z]+'
     return re.findall(words_pattern, s, flags=re.IGNORECASE)
@@ -24,7 +23,6 @@ def extract_lables(s):
     pattern = re.compile("'label':\s*'\w+'")
     res = re.finditer(pattern, s)
     return [mo.group().partition("': '")[2].strip("'") for mo in res]
-
 
 def get_dict(x):
 
