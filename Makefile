@@ -63,3 +63,17 @@ install_dev:
 
 streamlit:
 	@streamlit run skills_matcher/app/app.py
+
+# ----------------------------------
+#         HEROKU COMMANDS
+# ----------------------------------
+
+heroku_login:
+	-@heroku login
+
+heroku_create_app:
+	-@heroku create ${Guest1877}
+
+deploy_heroku:
+	-@git push heroku master
+	-@heroku ps:scale web=1
