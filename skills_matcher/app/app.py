@@ -5,6 +5,9 @@ import pandas as pd
 import streamlit as st
 from skills_matcher.scripts.spacy_model import load_results_manual, load_results_auto
 from skills_matcher.scripts.utils.clean_skills import *
+from skills_matcher.scripts.utils.matcher import extract_jd
+from skills_matcher.scripts.utils.matcher import extract_resume_skills
+from skills_matcher.scripts.utils.matcher import match_skills
 
 PATH = os.path.dirname(os.path.dirname(__file__))
 data = pd.read_csv(PATH + '/data/final_data.csv')
@@ -92,7 +95,6 @@ if radio == "I'm a Recruiter":
         output
 
 
-
 elif radio == "I'm looking for a job":
     st.markdown(
     "<h1 style='text-align: center; color: #325c7a;'>I'm looking for a job</h1>",
@@ -100,18 +102,22 @@ elif radio == "I'm looking for a job":
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        category = st.selectbox('Select your prefered job', categories)
-        locations = list(
-            data.loc[data.job == category]['location'].values)
+        category = st.selectbox('Select a job category', categories)
+        positions = list(data.loc[data.job == category]['position'].values)
+
     with col2:
-        location = st.selectbox('Available locations', locations)
-        locations.append('Europe')
+        position = st.selectbox('Select an open position', positions)
+        locations = list(
+            data.loc[data.position == position]['location'].values)
+
+    with col3:
+        location = st.selectbox('Select a location', locations)
+
     uploaded_file = st.file_uploader("Choose a file")
+
     if uploaded_file is not None:
         raw_text = read_pdf(uploaded_file)
-        entities = load_results_manual(raw_text)
-        entities_auto = load_results_auto(raw_text)
-        entities = [dic['entity'] for dic in entities]
-        entities.extend(entities_auto)
-        entities = set(entities)
-        entities
+        cv_entities = extract_resume_skills(raw_text) #returns a DF with the cv_skills
+        jd_df = extract_jd(inp = category) #returns a DF with all the jd_skills
+        fig = match_skills(cv_entities, jd_df)
+        st.plotly_chart(fig)
