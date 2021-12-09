@@ -13,6 +13,7 @@ PATH = os.path.dirname(os.path.dirname(__file__))
 data = pd.read_csv(PATH + '/data/final_data.csv')
 categories = list(data.groupby('job').count().index)
 
+
 def read_pdf(file):
     pdf = pdfplumber.open(file)
     page = pdf.pages[0]
@@ -24,9 +25,15 @@ radio = st.sidebar.radio(label="",
         options=["Skills Matcher", "I'm a Recruiter", "I'm looking for a job"])
 
 if radio == 'Skills Matcher':
+    st.markdown("""
+        <style>
+        .reportview-container .main{
+            background: url("https://drive.google.com/uc?id=1pyjYV_o4P_D1XJyhRDzQoCm9Cw1fm56d");
+            background-size: cover;
+        }
+        """,
+                unsafe_allow_html=True)
 
-    image = st.image(
-        'https://drive.google.com/uc?id=1ZoWEeAX4l36w5fzuEgdijmjZ8z1Mu20j')
 
 if radio == "I'm a Recruiter":
     st.markdown(
