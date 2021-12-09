@@ -9,6 +9,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 import plotly.express as px
+import plotly.graph_objects as go
 from skills_matcher.scripts.spacy_model import load_results_manual
 from skills_matcher.scripts.utils.clean_skills import get_dict, get_dict_cv
 from skills_matcher.scripts.utils.paths import load_paths
@@ -96,24 +97,24 @@ def match_skills(cv_set, data):
             if len(data['MERGE'][i]) < 2:
                 continue
             else:
-                qu = len(set(cv_set) & data['MERGE'][i])
+                qu = len(set(cv_set) & set(data['MERGE'][i]))
                 di = len(data['MERGE'][i])
                 pct_match = round((qu/di) * 100, 2)
                 pct_list.append([i, pct_match])
 
         pct_list.sort(key=lambda x: x[1], reverse = True)
-        pct_list = pct_list[0:4]
-
+        pct_list = pct_list[0:5]
 
     '''Counting matching score'''
-    job_number, matching_score, job_cat = [], [], []
-    frame = pd.DataFrame
+    job_number, matching_score, job_cat, all_entities = [], [], [], []
     for i in pct_list:
         cat = data["position"][i[0]]
+        all_entities.append(data['MERGE'][i[0]])
         print('Job #{} in Sector {} has a {}% match'.format(i[0], cat, i[1]))
         job_number.append(i[0])
         matching_score.append(i[1])
 
+        cat = ' '.join(str(cat).split()[0:3])
         if cat in job_cat:
             job_cat.append(str(cat) + str(i[0]))
         else:
@@ -122,27 +123,65 @@ def match_skills(cv_set, data):
     frame = pd.DataFrame(job_number, columns=['job_number'])
     frame["matching_score"] = matching_score
     frame["Category"] = job_cat
+    frame['Merge'] = all_entities
 
-    #could implement frame["color"] with different color for each job
+    all_skills = []
+    all_knows = []
+    all_mins = []
 
-    #Visualizing with plotly
-    #templates: ['ggplot2', 'seaborn', 'simple_white', 'plotly',
-    #'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
-    #'ygridoff', 'gridon', 'none']
+    for i, row in frame.iterrows():
+        skills_frame = list(set(frame['Merge'][i]) & set(data['SKILL'][frame['job_number'][i]]))
+        knows_frame = list(set(frame['Merge'][i]) & set(data['KNOWLEDGE'][frame['job_number'][i]]))
+        mins_frame = list(set(frame['Merge'][i]) & set(data['MIN_EXP'][frame['job_number'][i]]))
+        all_skills.append(skills_frame)
+        all_knows.append(knows_frame)
+        all_mins.append(mins_frame)
 
+    all_skills = [float(len(i)) for i in all_skills]
+    all_knows = [float(len(i)) for i in all_knows]
+    all_mins = [float(len(i)) for i in all_mins]
+
+
+    frame['SKILL'] = all_skills
+    frame['KNOWLEDGE'] = all_knows
+    frame['MIN_EXP'] = all_mins
+    frame['SUM'] = frame[['SKILL', 'KNOWLEDGE', 'MIN_EXP']].sum(axis = 1)
+    frame['SKILL'] = frame['SKILL'] * frame["matching_score"] / frame['SUM']
+    frame['KNOWLEDGE'] = frame['KNOWLEDGE'] * frame["matching_score"] / frame[
+        'SUM']
+    frame['MIN_EXP'] = frame['MIN_EXP']*frame["matching_score"]/frame['SUM']
+
+
+    fig = go.Figure()
     fig = px.bar(
-        x=frame['Category'],
-        y=frame["matching_score"],
-        labels={"x": "job position", "y": "Matching %"},
-        title=f"Job offers matching with resume",
-        width=800, height=800,
-        template="seaborn",
-        color = frame["matching_score"])
-    fig.update_layout(
-        paper_bgcolor="lightblue",
-    )
+        frame,
+        x='Category',
+        y=['SKILL', 'KNOWLEDGE', 'MIN_EXP'],
+        #color = ['SKILL', 'KNOWLEDGE', 'MIN_EXP'] ,
+        labels={
+            'Category': "<b>Job position</b>",
+            'value': "<b>Matching %</b>",
+            'variable': '<b>labels</b>'
+        },
+        width=700,
+        height=500,
+        template="simple_white",
+        title="<b>Job offers matching with resume</b>")
+
+    fig.update_layout(barmode='stack',
+                      xaxis={'categoryorder': 'total descending'},
+                      font=dict(family="Courier New, monospace",
+                      size=16,
+                      color="#325c7a"))
 
     return fig
+# #could implement frame["color"] with different color for each job
+
+# #Visualizing with plotly
+# #templates: ['ggplot2', 'seaborn', 'simple_white', 'plotly',
+# #'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
+# #'ygridoff', 'gridon', 'none']
+
 
 def clean_resume(df):
     clean = []

@@ -12,6 +12,7 @@ from skills_matcher.scripts.utils.matcher import match_skills
 PATH = os.path.dirname(os.path.dirname(__file__))
 data = pd.read_csv(PATH + '/data/final_data.csv')
 categories = list(data.groupby('job').count().index)
+categories.append('all')
 
 
 def read_pdf(file):
@@ -110,21 +111,15 @@ elif radio == "I'm looking for a job":
     col1, col2, col3 = st.columns(3)
     with col1:
         category = st.selectbox('Select a job category', categories)
-        positions = list(data.loc[data.job == category]['position'].values)
-
-    with col2:
-        position = st.selectbox('Select an open position', positions)
-        locations = list(
-            data.loc[data.position == position]['location'].values)
-
-    with col3:
-        location = st.selectbox('Select a location', locations)
 
     uploaded_file = st.file_uploader("Choose a file")
 
     if uploaded_file is not None:
         raw_text = read_pdf(uploaded_file)
         cv_entities = extract_resume_skills(raw_text) #returns a DF with the cv_skills
-        jd_df = extract_jd(inp = category) #returns a DF with all the jd_skills
-        fig = match_skills(cv_entities, jd_df)
+        if category == 'all':
+            jd_df = extract_jd(inp = None) #returns a DF with all the jd_skills
+        else:
+            jd_df = extract_jd(inp=category)
+        fig= match_skills(cv_entities, jd_df)
         st.plotly_chart(fig)
