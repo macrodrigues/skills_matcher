@@ -1,30 +1,31 @@
 import pandas as pd
-import numpy as np
 import re
 
-#spacy nlp 
+#spacy nlp
 import spacy
-from spacy.pipeline import EntityRuler
-from spacy.lang.en import English
-from spacy.tokens import Doc, Span
 
-from spacy import displacy
-
-#word 
-import nltk
+#word
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 import plotly.express as px
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-from skills_matcher.scripts.spacy_model import load_results_auto, load_results_manual
-from skills_matcher.scripts.utils.clean_skills import extract_skills_auto, extract_entities_2, extract_lables, get_dict, get_dict_cv
+from skills_matcher.scripts.spacy_model import load_results_manual
+from skills_matcher.scripts.utils.clean_skills import get_dict, get_dict_cv
 from skills_matcher.scripts.utils.paths import load_paths
 
 
-PATH_DATA, PATH_DICT, PATH_TRAIN_DATA, PATH_VAL_DATA, PATH_COMPLETE_DICT, PATH_COMPLETE_CV = load_paths('final_data', 'doccano_dictionary', 'train', 'val', 'complete_dict', 'cleaned_Resume_final')
+PATH_DATA, \
+PATH_DICT, \
+PATH_TRAIN_DATA, \
+PATH_VAL_DATA, \
+PATH_COMPLETE_DICT, \
+PATH_COMPLETE_CV = \
+load_paths('final_data',
+            'doccano_dictionary',
+            'train',
+            'val',
+            'complete_dict',
+            'cleaned_Resume_final')
 
 """Workflow of functions for comparing CV to JD
 - load CV text
@@ -35,74 +36,78 @@ PATH_DATA, PATH_DICT, PATH_TRAIN_DATA, PATH_VAL_DATA, PATH_COMPLETE_DICT, PATH_C
 
 def extract_CV(inp = None):
     df_CV = pd.read_csv(PATH_COMPLETE_CV, index_col=[0])
-    
     data = df_CV.apply(get_dict_cv, axis=1)
-    data.drop(columns = ["Resume_html", "entities_auto_label", 'entities_manual_label'], inplace = True)
+    data.drop(columns = ["Resume_html",
+                        "entities_auto_label",
+                        'entities_manual_label'], inplace = True)
     return data
 
 def extract_resume_skills(text):
     #extracting skills from resume string
-    
     set_list_2 = []
     ext = []
-    
+
     list_1 = create_skill_list(text, model = True)  #get extracted skills with base_model
-    list_2 = load_results_manual(text)     #get extracted skills with trained_model  
-        
+    list_2 = load_results_manual(text) #get extracted skills with trained_model
+
     for i in range(0, len(list_2)):
         set_list_2.append(str(list_2[i]["entity"]).lower().strip())
     set_list_2 = set(set_list_2)
     ext.append(set.union(list_1, set_list_2))
-    
+
     flat_list = [item for sublist in ext for item in sublist]
     set(flat_list)
-        
     return flat_list
 
 def extract_jd(inp = None):
     df_JD = pd.read_csv(PATH_DATA)
-    
     #else branch with input seems like its not working properly with match_skills function (yet)
     if inp == None:
         data = df_JD.apply(get_dict, axis=1)
         data.drop(columns = ["ISCO", "major_job"], inplace = True)
-    else:    
-        df_JD = df_JD.loc[df_JD['job'] == inp, ['job', 'position', 'location', 'description',	
+    else:
+        df_JD = df_JD.loc[df_JD['job'] == inp, ['job', 'position', 'location', 'description',
                               'entities_auto_label', 'entities_manual_label']]
         data = df_JD.apply(get_dict, axis=1)
         data.reset_index(inplace = True)
-        
+
     data.drop(columns = ['entities_auto_label', 'entities_manual_label'], inplace = True)
-    
+
     return data
 
-def match_skills(JD_set, cv_set, data):
+def match_skills(cv_set, data):
     '''Get intersection of resume skills and job offer skills and return match percentage'''
+
+    all_skills = []
+    for i, row in data.iterrows():
+        skills = list(data['SKILL'][i])
+        knows = list(data['KNOWLEDGE'][i])
+        mins = list(data['MIN_EXP'][i])
+        merged_labels = set(skills + knows + mins)
+        all_skills.append(merged_labels)
+
+    data['MERGE'] = all_skills
     pct_list = []
-    
-    JD_set = data["SKILL"].apply(set)
-    
-    #JD_set = list(filter(None, JD_set))
     if len(cv_set) < 1:
-        print('could not extract skills from resume text')   
+        print('could not extract skills from resume text')
     else:
         #implement function comparing with a list of job_descriptions
-        for i in range(0, len(JD_set)):
-            if len(JD_set[i]) < 2:
+        for i in range(0, len(data['MERGE'])):
+            if len(data['MERGE'][i]) < 2:
                 continue
             else:
-                qu = len(set(cv_set) & JD_set[i])
-                di = len(JD_set[i])
+                qu = len(set(cv_set) & data['MERGE'][i])
+                di = len(data['MERGE'][i])
                 pct_match = round((qu/di) * 100, 2)
                 pct_list.append([i, pct_match])
-            
+
         pct_list.sort(key=lambda x: x[1], reverse = True)
-        pct_list = pct_list[0:9]
-        
+        pct_list = pct_list[0:4]
+
+
     '''Counting matching score'''
     job_number, matching_score, job_cat = [], [], []
     frame = pd.DataFrame
-
     for i in pct_list:
         cat = data["position"][i[0]]
         print('Job #{} in Sector {} has a {}% match'.format(i[0], cat, i[1]))
@@ -117,27 +122,27 @@ def match_skills(JD_set, cv_set, data):
     frame = pd.DataFrame(job_number, columns=['job_number'])
     frame["matching_score"] = matching_score
     frame["Category"] = job_cat
+
     #could implement frame["color"] with different color for each job
 
-    
     #Visualizing with plotly
     #templates: ['ggplot2', 'seaborn', 'simple_white', 'plotly',
-         #'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
-         #'ygridoff', 'gridon', 'none']
+    #'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
+    #'ygridoff', 'gridon', 'none']
 
     fig = px.bar(
-        x=frame['Category'], 
+        x=frame['Category'],
         y=frame["matching_score"],
         labels={"x": "job position", "y": "Matching %"},
         title=f"Job offers matching with resume",
-        width=1200, height=800,
+        width=800, height=800,
         template="seaborn",
         color = frame["matching_score"])
     fig.update_layout(
         paper_bgcolor="lightblue",
     )
-    
-    return fig.show()
+
+    return fig
 
 def clean_resume(df):
     clean = []
@@ -160,18 +165,18 @@ def clean_resume(df):
     return clean
 
 def create_skill_list(text, model = False):
-    
+
     if model == True:
-        
+
         skill_pattern_path = PATH_COMPLETE_DICT
-        nlp_ms = spacy.blank("en") 
-        
+        nlp_ms = spacy.blank("en")
+
         ruler = nlp_ms.add_pipe("entity_ruler")
         ruler.from_disk(skill_pattern_path)
         doc = nlp_ms(text)
     else:
         doc = text
-    
+
     t = list([ent.text.lower()] for ent in doc.ents )
     flat_list = [item for sublist in t for item in sublist]
     return set(flat_list)

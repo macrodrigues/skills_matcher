@@ -15,7 +15,6 @@ import pandas as pd
 # 2) data_cleaned = data_cv.apply(get_dict_cv, axis=1)
 # 3) data_cleaned[<column>].apply(lowercase).apply(remove_punktuation)
 
-
 def extract_skills_auto(s):
     words_pattern = '[a-z]+'
     return re.findall(words_pattern, s, flags=re.IGNORECASE)
