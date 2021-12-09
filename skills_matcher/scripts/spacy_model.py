@@ -6,9 +6,7 @@ from tqdm import tqdm
 import re
 import random
 import os
-
 PATH = os.path.dirname(os.path.dirname(__file__))
-
 random.seed(42)
 
 """
@@ -144,7 +142,7 @@ def load_results_manual(X_text, model_path = PATH_MANUAL_MODEL, visualize = Fals
             doc,
             labels=["SKILL", "MIN_EXP", "KNOWLEGE", "LEVEL"],
             show_table=False,
-            title="random")
+            title="Job Description")
     if visualize == True:
         spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
     ents = doc.ents
@@ -164,7 +162,7 @@ def load_results_auto(X_text, model_path=PATH_AUTO_MODEL, visualize=False, strea
             doc,
             labels=["SKILL", "MIN_EXP", "KNOWLEGE", "LEVEL"],
             show_table=False,
-            title="random"
+            title="Job Description"
         )
     if visualize == True:
         spacy.displacy.render(doc, style='ent', jupyter=True, options=options)
