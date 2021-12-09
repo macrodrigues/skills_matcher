@@ -158,7 +158,7 @@ elif radio == "I'm looking for a job":
     with col1:
         category = st.selectbox('Select a job category', categories)
 
-    uploaded_file = st.file_uploader("Choose a file")
+    uploaded_file = st.file_uploader("Upload your CV:")
 
     if uploaded_file is not None:
         raw_text = read_pdf(uploaded_file)

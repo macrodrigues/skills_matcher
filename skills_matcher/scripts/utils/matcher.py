@@ -204,8 +204,8 @@ def match_skills(cv_set, data):
             'value': "<b>Matching %</b>",
             'variable': '<b>labels</b>'
         },
-        width=700,
-        height=500,
+        width=1100,
+        height=800,
         template="simple_white",
         title="<b>Job offers matching with resume</b>")
 
