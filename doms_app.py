@@ -1,3 +1,4 @@
+from numpy.core.fromnumeric import sometrue
 import pdfplumber
 import time
 import os
@@ -7,15 +8,18 @@ from skills_matcher.scripts.spacy_model import load_results_manual, load_results
 from skills_matcher.scripts.utils.clean_skills import *
 from skills_matcher.scripts.utils.matcher import extract_jd
 from skills_matcher.scripts.utils.matcher import extract_resume_skills
-from skills_matcher.scripts.utils.matcher import match_skills, match_position_skills, get_JD
+from skills_matcher.scripts.utils.matcher import match_skills
 from skills_matcher.scripts.utils.show_table import print_final_table
-from skills_matcher.scripts.utils.gauge_meter import gauge_meter
-
+from skills_matcher.scripts.spacy_model import load_results_auto, load_results_manual
+from skills_matcher.scripts.utils.clean_skills import extract_skills_auto, extract_entities_2, extract_lables, get_dict, get_dict_cv
+from skills_matcher.scripts.utils.paths import load_paths
+from skills_matcher.scripts.utils.matcher import get_JD, match_position_skills
+import skills_matcher.scripts.utils.gauge_meter as gauge_meter
+import plotly.graph_objects as go
 
 PATH = os.path.dirname(os.path.dirname(__file__))
 data = pd.read_csv(PATH + '/data/final_data.csv')
 categories = list(data.groupby('job').count().index)
-categories.append('all')
 
 
 def read_pdf(file):
@@ -23,10 +27,12 @@ def read_pdf(file):
     page = pdf.pages[0]
     return page.extract_text()
 
+
 st.sidebar.title("Pages")
 
-radio = st.sidebar.radio(label="",
-        options=["Skills Matcher", "I'm a Recruiter", "I'm looking for a job"])
+radio = st.sidebar.radio(
+    label="",
+    options=["Skills Matcher", "I'm a Recruiter", "I'm looking for a job"])
 
 if radio == 'Skills Matcher':
     st.markdown("""
@@ -37,7 +43,6 @@ if radio == 'Skills Matcher':
         }
         """,
                 unsafe_allow_html=True)
-
 
 if radio == "I'm a Recruiter":
     st.markdown(
@@ -89,6 +94,11 @@ if radio == "I'm a Recruiter":
 
         entities_manual = load_results_manual(description, streamlit=True)
 
+        output = data.apply(get_dict, axis=1)
+        res = print_final_table(position, output)
+        hdf = res.assign(hack='').set_index('hack')
+        st.table(hdf)
+
         #calling the matcher
         ###############################################################################
 
@@ -108,7 +118,7 @@ if radio == "I'm a Recruiter":
 
             with col1:
                 st.markdown(
-                    f"<h1 style='text-align: left; color: black;'>ID : {best}</h1>",
+                    f"<h1 style='text-align: left; white: red;'>ID : {best}</h1>",
                     unsafe_allow_html=True)
                 if best % 2 == 0:
                     st.image("pics/ma.png")
@@ -120,7 +130,7 @@ if radio == "I'm a Recruiter":
 
             with col2:
                 st.markdown(
-                    f"<h1 style='text-align: middle; color: black;'>ID : {nd}</h1>",
+                    f"<h1 style='text-align: middle; color: white;'>ID : {nd}</h1>",
                     unsafe_allow_html=True)
                 if nd % 2 == 0:
                     st.image("pics/ma.png")
@@ -132,7 +142,7 @@ if radio == "I'm a Recruiter":
 
             with col3:
                 st.markdown(
-                    f"<h1 style='text-align: left; color: black;'>ID : {rd}</h1>",
+                    f"<h1 style='text-align: left; white: red;'>ID : {rd}</h1>",
                     unsafe_allow_html=True)
 
                 if rd % 2 == 0:
@@ -148,24 +158,30 @@ if radio == "I'm a Recruiter":
                 "<h1 style='text-align: center; color: cyan;'>Sorry, no candidates, go get some!</h1>",
                 unsafe_allow_html=True)
 
-
 elif radio == "I'm looking for a job":
     st.markdown(
-    "<h1 style='text-align: center; color: #325c7a;'>I'm looking for a job</h1>",
-    unsafe_allow_html=True)
+        "<h1 style='text-align: center; color: #325c7a;'>I'm looking for a job</h1>",
+        unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
     with col1:
         category = st.selectbox('Select a job category', categories)
+        positions = list(data.loc[data.job == category]['position'].values)
+
+    with col2:
+        position = st.selectbox('Select an open position', positions)
+        locations = list(
+            data.loc[data.position == position]['location'].values)
+
+    with col3:
+        location = st.selectbox('Select a location', locations)
 
     uploaded_file = st.file_uploader("Choose a file")
 
     if uploaded_file is not None:
         raw_text = read_pdf(uploaded_file)
-        cv_entities = extract_resume_skills(raw_text) #returns a DF with the cv_skills
-        if category == 'all':
-            jd_df = extract_jd(inp = None) #returns a DF with all the jd_skills
-        else:
-            jd_df = extract_jd(inp=category)
-        fig= match_skills(cv_entities, jd_df)
+        cv_entities = extract_resume_skills(
+            raw_text)  #returns a DF with the cv_skills
+        jd_df = extract_jd(inp=category)  #returns a DF with all the jd_skills
+        fig = match_skills(cv_entities, jd_df)
         st.plotly_chart(fig)

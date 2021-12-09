@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Dec  9 09:35:41 2021
+# Make data base, printed on Thu Dec  9 19:45:34 2021
 
 # Variables
 
@@ -15,7 +15,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # automatic
 ?F = $(notdir $?)
 # environment
-WSLENV = VSCODE_WSL_EXT_LOCATION/up
+WSLENV = ELECTRON_RUN_AS_NODE/w:WT_SESSION::WT_PROFILE_ID
 # default
 .SHELLFLAGS := -c
 # environment
@@ -37,7 +37,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/macrodrigues/.vscode-server/bin/7db1a2b88f7557e0a43fec75b6ba7e50b3e9f77e/node
+_ = /mnt/c/Users/Marco Rodrigues/AppData/Local/Programs/Microsoft VS Code/bin/code
 # environment
 GOOGLE_APPLICATION_CREDENTIALS = /home/macrodrigues/code/macrodrigues/gcp/wagon-bootcamp-328716-bcd76438ed42.json
 # makefile (from 'Makefile', line 1)
@@ -57,11 +57,13 @@ PATH = /home/macrodrigues/.vscode-server/bin/7db1a2b88f7557e0a43fec75b6ba7e50b3e
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
+VIRTUAL_ENV = /home/macrodrigues/.pyenv/versions/3.8.12/envs/lewagon
+# environment
 VSCODE_LOG_STACK = false
 # environment
 PYENV_ROOT = /home/macrodrigues/.pyenv
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-bd5de008-05bc-4539-b8cc-e9f6b470e175.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-b2452c60-66db-46bc-883b-ec321aa0ebb0.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -79,7 +81,9 @@ PWD = /home/macrodrigues/code/macrodrigues/skills_matcher
 # environment
 SSH_AGENT_PID = 115
 # environment
-WSL_INTEROP = /run/WSL/436_interop
+WSL_INTEROP = /run/WSL/8_interop
+# environment
+WT_SESSION = 048ac2a5-1efd-423c-a087-492d1f4d7107
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/server/remoteExtensionHostProcess
 # environment
@@ -105,7 +109,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 0
+SHLVL = 1
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -113,7 +117,7 @@ USER = macrodrigues
 # makefile
 .DEFAULT_GOAL := install_requirements
 # environment
-NAME = DESKTOP-6U135SI
+NAME = Code
 # environment
 LESS = -R
 # automatic
@@ -142,6 +146,8 @@ NVM_DIR = /home/macrodrigues/.nvm
 +D = $(patsubst %/,%,$(dir $+))
 # environment
 BROWSER = "/mnt/c/Program Files (x86)/BraveSoftware/Brave-Browser/Application/brave.exe"
+# environment
+WT_PROFILE_ID = {2c4de342-38b7-51cf-b940-2309a097f518}
 # default
 MAKEFILES := 
 # automatic
@@ -152,6 +158,8 @@ PAGER = less
 LC_ALL = C
 # environment
 PYENV_VIRTUALENV_DISABLE_PROMPT = 1
+# environment
+PYENV_VIRTUAL_ENV = /home/macrodrigues/.pyenv/versions/3.8.12/envs/lewagon
 # environment
 HOSTTYPE = x86_64
 # automatic
@@ -175,7 +183,7 @@ VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu
 # variable set hash-table stats:
-# Load=82/1024=8%, Rehash=0, Collisions=5/110=5%
+# Load=86/1024=8%, Rehash=0, Collisions=5/114=4%
 
 # Pattern-specific Variable Values
 
@@ -232,7 +240,7 @@ pypi:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-12-08 00:43:41.928265
+#  Last modified 2021-12-09 19:45:12.7809927
 #  File has been updated.
 #  Successfully updated.
 
@@ -267,6 +275,7 @@ count_lines:
         '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 	@find ./scripts -name '*-*' -exec  wc -l {} \; | sort -n| awk \
+ 
 		        '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 	@find ./tests -name '*.py' -exec  wc -l {} \; | sort -n| awk \
@@ -275,7 +284,6 @@ count_lines:
 
 # Not a target:
 .DEFAULT:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -361,6 +369,6 @@ install:
 # strcache performance: lookups = 58 / hit rate = 43%
 # hash-table stats:
 # Load=33/8192=0%, Rehash=0, Collisions=1/58=2%
-# Finished Make data base on Thu Dec  9 09:35:41 2021
+# Finished Make data base on Thu Dec  9 19:45:34 2021
 
  
