@@ -35,8 +35,6 @@ nltk
 #streamlit
 streamlit
 spacy_streamlit
-
 plotly
-time
 os
 sys
