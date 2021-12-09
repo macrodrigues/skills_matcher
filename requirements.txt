@@ -36,5 +36,3 @@ nltk
 streamlit
 spacy_streamlit
 plotly
-os
-sys
