@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Dec  8 23:50:07 2021
+# Make data base, printed on Thu Dec  9 00:07:45 2021
 
 # Variables
 
@@ -63,7 +63,7 @@ VSCODE_LOG_STACK = false
 # environment
 PYENV_ROOT = /home/macrodrigues/.pyenv
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-7f5a0376-2af6-4507-aa4f-e9ec30119e73.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2da1ede7-c445-4f4b-b5fa-a7bd0ce1bb93.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -123,7 +123,7 @@ LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Marco Rodrigues/.vscode/extensions/ms-vscode-remote.remote-wsl-0.58.5
+VSCODE_WSL_EXT_LOCATION = /mnt/c/Users/Marco Rodrigues/.vscode/extensions/ms-vscode-remote.remote-wsl-0.63.4
 # default
 MAKE_COMMAND := make
 # environment
@@ -275,13 +275,13 @@ count_lines:
         '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 	@find ./scripts -name '*-*' -exec  wc -l {} \; | sort -n| awk \
+ 
 		        '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 	@find ./tests -name '*.py' -exec  wc -l {} \; | sort -n| awk \
         '{printf "%4s %s\n", $$1, $$2}{s+=$$0}END{print s}'
 	@echo ''
 
- 
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
@@ -369,6 +369,6 @@ install:
 # strcache performance: lookups = 58 / hit rate = 43%
 # hash-table stats:
 # Load=33/8192=0%, Rehash=0, Collisions=1/58=2%
-# Finished Make data base on Wed Dec  8 23:50:07 2021
+# Finished Make data base on Thu Dec  9 00:07:45 2021
 
  
