@@ -7,11 +7,15 @@ from skills_matcher.scripts.spacy_model import load_results_manual, load_results
 from skills_matcher.scripts.utils.clean_skills import *
 from skills_matcher.scripts.utils.matcher import extract_jd
 from skills_matcher.scripts.utils.matcher import extract_resume_skills
-from skills_matcher.scripts.utils.matcher import match_skills
+from skills_matcher.scripts.utils.matcher import match_skills, match_position_skills, get_JD
+from skills_matcher.scripts.utils.show_table import print_final_table
+from skills_matcher.scripts.utils.gauge_meter import gauge_meter
+
 
 PATH = os.path.dirname(os.path.dirname(__file__))
 data = pd.read_csv(PATH + '/data/final_data.csv')
 categories = list(data.groupby('job').count().index)
+categories.append('all')
 
 
 def read_pdf(file):
@@ -71,7 +75,8 @@ if radio == "I'm a Recruiter":
         font-weight: bold;
         text-align: center
     }
-    </style>""", unsafe_allow_html=True)
+    </style>""",
+                               unsafe_allow_html=True)
 
     if st.button('Search'):
         latest_iteration = st.empty()
@@ -84,22 +89,64 @@ if radio == "I'm a Recruiter":
 
         entities_manual = load_results_manual(description, streamlit=True)
 
-        def print_final_table(position, data):
-            index = data.index[data['position'] == position].to_list()
-            list_skills = data['SKILL'][index].to_list()[0]
-            list_knowledge = data['KNOWLEDGE'][index].to_list()[0]
-            list_min_exp = data['MIN_EXP'][index].to_list()[0]
-            list_level = data['LEVEL'][index].to_list()[0]
-            return pd.DataFrame({'skills': pd.Series(list_skills),
-                            'knowledge': pd.Series(list_knowledge),
-                            'level': pd.Series(list_min_exp),
-                            'min_exp': pd.Series(list_level)})
+        #calling the matcher
+        ###############################################################################
 
-        output = data.apply(get_dict, axis=1)
-        res = print_final_table(position, output)
-        res
+        pos_list = get_JD(position)
+        res = match_position_skills(pos_list)
 
-        output
+        best = res[2][0]
+        nd = res[1][0]
+        rd = res[0][0]
+
+        best_score = res[2][1]
+        nd_score = res[1][1]
+        rd_score = res[0][1]
+
+        col1, col2, col3 = st.columns(3)
+        if nd_score + rd_score + best_score != 0:
+
+            with col1:
+                st.markdown(
+                    f"<h1 style='text-align: left; color: black;'>ID : {best}</h1>",
+                    unsafe_allow_html=True)
+                if best % 2 == 0:
+                    st.image("pics/ma.png")
+                else:
+                    st.image("pics/wo.png")
+
+                CCC = gauge_meter(rd_score)
+                CCC
+
+            with col2:
+                st.markdown(
+                    f"<h1 style='text-align: middle; color: black;'>ID : {nd}</h1>",
+                    unsafe_allow_html=True)
+                if nd % 2 == 0:
+                    st.image("pics/ma.png")
+                else:
+                    st.image("pics/wo.png")
+
+                DDD = gauge_meter(nd_score)
+                DDD
+
+            with col3:
+                st.markdown(
+                    f"<h1 style='text-align: left; color: black;'>ID : {rd}</h1>",
+                    unsafe_allow_html=True)
+
+                if rd % 2 == 0:
+                    st.image("pics/ma.png")
+                else:
+                    st.image("pics/wo.png")
+
+                VVV = gauge_meter(best_score)
+                VVV
+
+        else:
+            st.markdown(
+                "<h1 style='text-align: center; color: cyan;'>Sorry, no candidates, go get some!</h1>",
+                unsafe_allow_html=True)
 
 
 elif radio == "I'm looking for a job":
@@ -110,21 +157,15 @@ elif radio == "I'm looking for a job":
     col1, col2, col3 = st.columns(3)
     with col1:
         category = st.selectbox('Select a job category', categories)
-        positions = list(data.loc[data.job == category]['position'].values)
-
-    with col2:
-        position = st.selectbox('Select an open position', positions)
-        locations = list(
-            data.loc[data.position == position]['location'].values)
-
-    with col3:
-        location = st.selectbox('Select a location', locations)
 
     uploaded_file = st.file_uploader("Choose a file")
 
     if uploaded_file is not None:
         raw_text = read_pdf(uploaded_file)
         cv_entities = extract_resume_skills(raw_text) #returns a DF with the cv_skills
-        jd_df = extract_jd(inp = category) #returns a DF with all the jd_skills
-        fig = match_skills(cv_entities, jd_df)
+        if category == 'all':
+            jd_df = extract_jd(inp = None) #returns a DF with all the jd_skills
+        else:
+            jd_df = extract_jd(inp=category)
+        fig= match_skills(cv_entities, jd_df)
         st.plotly_chart(fig)

@@ -9,6 +9,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 import plotly.express as px
+import plotly.graph_objects as go
 from skills_matcher.scripts.spacy_model import load_results_manual
 from skills_matcher.scripts.utils.clean_skills import get_dict, get_dict_cv
 from skills_matcher.scripts.utils.paths import load_paths
@@ -35,7 +36,7 @@ load_paths('final_data',
 """
 
 """Workflow for comparing chosen Job Position to CV dataset
-- call get_JD with string of chosen Job Position and save as list - pos_list = get_JD('position') 
+- call get_JD with string of chosen Job Position and save as list - pos_list = get_JD('position')
 - call match_position_skills with saved pos_list - match_position_skills(pos_list)"""
 
 
@@ -69,7 +70,7 @@ def extract_resume_skills(text):
 #getting cleaned/skill extracted JD dataset by Job Category
 def extract_jd(inp = None):
     df_JD = pd.read_csv(PATH_DATA, index_col=[0])
-    
+
     #else branch with input seems like its not working properly with match_skills function (yet)
     if inp == None:
         data = df_JD.apply(get_dict, axis=1)
@@ -87,22 +88,22 @@ def extract_jd(inp = None):
 #getting cleaned/skill extracted JD dataset by Job Position
 def extract_jd_position(inp = None):
     df_JD = pd.read_csv(PATH_DATA, index_col=[0])
-    
+
     if inp == None:
         data = df_JD.apply(get_dict, axis=1)
         data.drop(columns = ["ISCO", "major_job"], inplace = True)
-    else:    
-        df_JD = df_JD.loc[df_JD['position'] == inp, ['job', 'position', 'location', 'description',	
+    else:
+        df_JD = df_JD.loc[df_JD['position'] == inp, ['job', 'position', 'location', 'description',
                               'entities_auto_label', 'entities_manual_label']]
         data = df_JD.apply(get_dict, axis=1)
         data.reset_index(inplace = True)
-    
+
     return data
 
 #getting skill_list of chosen job description
 def get_JD(inp):
     data = extract_jd_position(inp)
-    
+
     lengths = data["SKILL"].map(lambda x: len(x))
     position = data[lengths == lengths.max()].reset_index().drop(columns = "index")
     position_skills = position.loc[0][["SKILL", "KNOWLEDGE", "MIN_EXP", "LEVEL"]]
@@ -110,9 +111,9 @@ def get_JD(inp):
     position_list = []
     for column in position_skills:
         position_list.append(column)
-    
+
     position_list = [item.lower() for sublist in position_list for item in sublist]
-    
+
     return(set(position_list))
 
 #matching skills of one CV to JD dataset
@@ -128,7 +129,7 @@ def match_skills(cv_set, data):
         all_skills.append(merged_labels)
 
     data['MERGE'] = all_skills
-    percent_list = []
+    pct_list = []
     if len(cv_set) < 1:
         print('could not extract skills from resume text')
     else:
@@ -137,28 +138,24 @@ def match_skills(cv_set, data):
             if len(data['MERGE'][i]) < 2:
                 continue
             else:
-                quotient = len(set(cv_set) & data['MERGE'][i])
-                divisor = len(data['MERGE'][i])
-                percent_match = round((quotient/divisor) * 100, 2)
-                percent_list.append([i, percent_match])
+                qu = len(set(cv_set) & set(data['MERGE'][i]))
+                di = len(data['MERGE'][i])
+                pct_match = round((qu/di) * 100, 2)
+                pct_list.append([i, pct_match])
 
-        percent_list.sort(key=lambda x: x[1], reverse = True)
-        percent_list = percent_list[0:4]
-
+        pct_list.sort(key=lambda x: x[1], reverse = True)
+        pct_list = pct_list[0:5]
 
     '''Counting matching score'''
-    job_number, matching_score, job_cat, job_sec = [], [], [], []
-    pct_list = list
-    frame = pd.DataFrame
+    job_number, matching_score, job_cat, all_entities = [], [], [], []
     for i in pct_list:
-        sec = data["job"][i]
         cat = data["position"][i[0]]
+        all_entities.append(data['MERGE'][i[0]])
         print('Job #{} in Sector {} has a {}% match'.format(i[0], cat, i[1]))
         job_number.append(i[0])
         matching_score.append(i[1])
-        job_sec.append(sec)
-        
-        #in case job position already exists
+
+        cat = ' '.join(str(cat).split()[0:3])
         if cat in job_cat:
             job_cat.append(str(cat) + ' ' + str(i[0]))
         else:
@@ -167,27 +164,65 @@ def match_skills(cv_set, data):
     frame = pd.DataFrame(job_number, columns=['job_number'])
     frame["matching_score"] = matching_score
     frame["Category"] = job_cat
-    frame["Sector"] = job_sec
-    #could implement frame["color"] with different color for each job
+    frame['Merge'] = all_entities
 
-    #Visualizing with plotly
-    #templates: ['ggplot2', 'seaborn', 'simple_white', 'plotly',
-    #'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
-    #'ygridoff', 'gridon', 'none']
+    all_skills = []
+    all_knows = []
+    all_mins = []
 
+    for i, row in frame.iterrows():
+        skills_frame = list(set(frame['Merge'][i]) & set(data['SKILL'][frame['job_number'][i]]))
+        knows_frame = list(set(frame['Merge'][i]) & set(data['KNOWLEDGE'][frame['job_number'][i]]))
+        mins_frame = list(set(frame['Merge'][i]) & set(data['MIN_EXP'][frame['job_number'][i]]))
+        all_skills.append(skills_frame)
+        all_knows.append(knows_frame)
+        all_mins.append(mins_frame)
+
+    all_skills = [float(len(i)) for i in all_skills]
+    all_knows = [float(len(i)) for i in all_knows]
+    all_mins = [float(len(i)) for i in all_mins]
+
+
+    frame['SKILL'] = all_skills
+    frame['KNOWLEDGE'] = all_knows
+    frame['MIN_EXP'] = all_mins
+    frame['SUM'] = frame[['SKILL', 'KNOWLEDGE', 'MIN_EXP']].sum(axis = 1)
+    frame['SKILL'] = frame['SKILL'] * frame["matching_score"] / frame['SUM']
+    frame['KNOWLEDGE'] = frame['KNOWLEDGE'] * frame["matching_score"] / frame[
+        'SUM']
+    frame['MIN_EXP'] = frame['MIN_EXP']*frame["matching_score"]/frame['SUM']
+
+
+    fig = go.Figure()
     fig = px.bar(
-        x=frame['Category'],
-        y=frame["matching_score"],
-        labels={"x": "job position", "y": "Matching %"},
-        title=f"Job offers matching with resume",
-        width=800, height=800,
-        template="seaborn",
-        color = frame["matching_score"])
-    fig.update_layout(
-        paper_bgcolor="lightblue",
-    )
+        frame,
+        x='Category',
+        y=['SKILL', 'KNOWLEDGE', 'MIN_EXP'],
+        #color = ['SKILL', 'KNOWLEDGE', 'MIN_EXP'] ,
+        labels={
+            'Category': "<b>Job position</b>",
+            'value': "<b>Matching %</b>",
+            'variable': '<b>labels</b>'
+        },
+        width=700,
+        height=500,
+        template="simple_white",
+        title="<b>Job offers matching with resume</b>")
+
+    fig.update_layout(barmode='stack',
+                      xaxis={'categoryorder': 'total descending'},
+                      font=dict(family="Courier New, monospace",
+                      size=16,
+                      color="#325c7a"))
 
     return fig
+# #could implement frame["color"] with different color for each job
+
+# #Visualizing with plotly
+# #templates: ['ggplot2', 'seaborn', 'simple_white', 'plotly',
+# #'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
+# #'ygridoff', 'gridon', 'none']
+
 
 #Matching JD skill list with CV dataset
 def match_position_skills(JD_set):
@@ -211,10 +246,11 @@ def match_position_skills(JD_set):
 
         percent_list.sort(key=lambda x: x[1], reverse = True)
         percent_list = percent_list[0:4]
-        
-        for person in percent_list:
-            print("Candidate # {} has a {} % skill match with your job description".format(person[0], person[1]))
-    return None
+
+        percent_list.sort(key=lambda x: x[1], reverse = True)
+        percent_list = percent_list[0:4]
+
+    return percent_list
 
 #cleaning Resume dataset
 def clean_resume(df):

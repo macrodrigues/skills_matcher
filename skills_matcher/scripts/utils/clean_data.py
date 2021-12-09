@@ -1,10 +1,4 @@
-import pandas as pd
-import numpy as np
-import string
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
+
 
 def clean_dictionary(data, sample = 2000):
     data = data.drop_duplicates()
