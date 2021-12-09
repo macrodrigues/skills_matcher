@@ -29,8 +29,14 @@ memoized-property
 termcolor
 geopy
 pdfplumber
+nltk
 
 
 #streamlit
 streamlit
 spacy_streamlit
+
+plotly
+time
+os
+sys
