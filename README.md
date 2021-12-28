@@ -1,75 +1,6 @@
 # Skills Matcher
 
-![image](https://user-images.githubusercontent.com/62621924/143722908-7e35e501-a4a1-4adf-ace8-fd2e9b90da14.png)
-
-<!--
-# Startup the project
-
-The initial setup.
-
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
-
-Unittest test:
-```bash
-make clean install test
-```
-
-Check for skills_matcher in gitlab.com/{group}.
-If your project is not set please add it:
-
-- Create a new project on `gitlab.com/{group}/skills_matcher`
-- Then populate it:
-
-```bash
-##   e.g. if group is "{group}" and project_name is "skills_matcher"
-git remote add origin git@github.com:{group}/skills_matcher.git
-git push -u origin master
-git push -u origin --tags
-```
-
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-skills_matcher-run
-```
-
-# Install
-
-Go to `https://github.com/{group}/skills_matcher` to see the project, manage issues,
-setup you ssh public key, ...
-
-Create a python3 virtualenv and activate it:
-
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-
-```bash
-git clone git@github.com:{group}/skills_matcher.git
-cd skills_matcher
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-skills_matcher-run
-```
--->
+![SkillsMatcher_3](https://user-images.githubusercontent.com/62621924/147564086-7993794e-b3b9-4e5d-adee-6ed9088b7815.png)
 
 # Motivation
 
@@ -92,6 +23,23 @@ See below an example of job description:
 ```
 
 # The Models
+
+Before generating any models, manual annotation was implemented in order to clearly differentiate labels in the job descriptions. The annotation was done on around 200 job descriptions, and the labels used were: SKILL, KNOWLEDGE, MIN_EXP and LEVEL. The annotated data was then used to train a Spacy NER model.
+
+In order to detect more skills an automated annotation was also implemented, by using a dictionary of skills. The data using the automated way was also trained, but the model could not differentiate a SKILL from a KNOWLEDGE.
+
+Finally a simple entity ruler was also used, only to rapidly check if the skills from the dictionary were also on the job descriptions.
+
+See below the result for the manual labelling:
+
+![image](https://user-images.githubusercontent.com/62621924/147565069-94869da3-01fc-407f-bd27-32eb61276e61.png)
+
+# Check the app
+
+https://skills-matcher-best.herokuapp.com/
+
+
+
 
 
 
