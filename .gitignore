@@ -2,6 +2,6 @@
 .coverage
 .DS_Store
 .ipynb_checkpoints
-notebooks/
+/notebooks
 **/__pycache__/
 .env
